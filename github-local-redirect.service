@@ -1,12 +1,10 @@
 [Unit]
 Description=github-local-redirect
 After=network.target
-StartLimitIntervalSec=0
 
 [Service]
 Type=simple
 Restart=always
-RestartSec=1
 User=root
 ExecStart=/opt/github-local-redirect/.venv/bin/python /opt/github-local-redirect/app.py
 
