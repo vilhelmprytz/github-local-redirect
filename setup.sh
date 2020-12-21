@@ -17,24 +17,29 @@ sudo_cmd() {
     sudo $1
 }
 
+workdir() {
+    prev=$(pwd)
+    cmd "cd $INSTALL_PATH"
+    $1 "$2"
+    cmd "cd $prev"
+}
+
 install() {
     present=false
     [ -d "$INSTALL_PATH" ] && present=true
 
     [ "$present" == false ] && sudo_cmd "git clone $GIT_REPO $INSTALL_PATH"
-    [ "$present" == true ] && cmd "git pull $INSTALL_PATH"
+    [ "$present" == true ] && workdir cmd "git pull $INSTALL_PATH"
     sudo_cmd "chown -R $(whoami):$(whoami) $INSTALL_PATH"
 
     cmd "rm -rf $INSTALL_PATH/.venv"
     cmd "mkdir $INSTALL_PATH/.venv"
-    prev=$(pwd)
-    cmd "cd $INSTALL_PATH"
-    cmd "pipenv install"
-    cmd "cd $prev"
+    workdir cmd "pipenv install"
 
     sudo_cmd "cp $INSTALL_PATH/github-local-redirect.service /etc/systemd/system/github-local-redirect.service"
     sudo_cmd "systemctl enable --now github-local-redirect"
     sudo_cmd "systemctl restart github-local-redirect"
+    sudo_cmd "systemctl daemon-reload"
 }
 
 main() {
