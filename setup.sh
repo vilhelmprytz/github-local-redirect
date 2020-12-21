@@ -29,7 +29,7 @@ install() {
     [ -d "$INSTALL_PATH" ] && present=true
 
     [ "$present" == false ] && sudo_cmd "git clone $GIT_REPO $INSTALL_PATH"
-    [ "$present" == true ] && workdir cmd "git pull $INSTALL_PATH"
+    [ "$present" == true ] && workdir cmd "git pull"
     sudo_cmd "chown -R $(whoami):$(whoami) $INSTALL_PATH"
 
     cmd "rm -rf $INSTALL_PATH/.venv"
