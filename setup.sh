@@ -27,7 +27,10 @@ install() {
 
     cmd "rm -rf $INSTALL_PATH/.venv"
     cmd "mkdir $INSTALL_PATH/.venv"
-    cmd "pipenv install $INSTALL_PATH"
+    prev=$(pwd)
+    cmd "cd $INSTALL_PATH"
+    cmd "pipenv install"
+    cmd "cd $prev"
 
     sudo_cmd "cp $INSTALL_PATH/github-local-redirect.service /etc/systemd/system/github-local-redirect.service"
     sudo_cmd "systemctl enable --now github-local-redirect"

@@ -7,6 +7,7 @@ StartLimitIntervalSec=0
 Type=simple
 Restart=always
 RestartSec=1
+User=root
 ExecStart=/opt/github-local-redirect/.venv/bin/python /opt/github-local-redirect/app.py
 
 [Install]
