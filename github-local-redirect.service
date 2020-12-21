@@ -6,7 +6,8 @@ After=network.target
 Type=simple
 Restart=always
 User=root
-ExecStart=/opt/github-local-redirect/.venv/bin/python /opt/github-local-redirect/app.py
+WorkingDirectory=/opt/github-local-redirect
+ExecStart=/opt/github-local-redirect/.venv/bin/gunicorn --workers=4 --bind 0.0.0.0:80 app:app
 
 [Install]
 WantedBy=multi-user.target
